@@ -18,7 +18,7 @@ namespace BusinesRuleProject
             string result = productRepository.GetProductById(1);
             Console.WriteLine("Name Is: "+result);
             Console.WriteLine("omid");
-            Console.WriteLine("branchOne...");
+           
             //do
             //{
                 
