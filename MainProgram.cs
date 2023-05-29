@@ -17,8 +17,12 @@ namespace BusinesRuleProject
             bool EndProject=false;
             string result = productRepository.GetProductById(1);
             Console.WriteLine("Name Is: "+result);
+<<<<<<< HEAD
             // git is very shirin.....
 
+=======
+            Console.WriteLine("omid");
+>>>>>>> 899ba5210b51b93cda1660f11af01bef1136fe2f
             //do
             //{
                 
