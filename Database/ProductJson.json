@@ -1,1 +1,12 @@
-{"ProductId":1,"Name":"Omidi_123","Barcode":123}{"ProductId":1,"Name":"Omidi_123","Barcode":123}
+[
+  {
+    "ProductId":1,
+    "Name": "Omidi_001",
+    "Barcode": 111
+  },
+  {
+    "ProductId":2 ,
+    "Name": "Persn_002",
+    "Barcode": 222
+  }
+]
