@@ -1,4 +1,5 @@
 ﻿using BusinesRuleProject.Domain;
+using BusinesRuleProject.Interface;
 using CsvHelper;
 using Newtonsoft.Json;
 using System;
@@ -15,61 +16,67 @@ namespace BusinesRuleProject.Database
 {
     public class DBStorage
     {
-        private Product omid=new Product();
+        private Product omid = new Product();
         static string? solutionFolderPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
         static string dataFolderPath = Path.Combine(solutionFolderPath, "Database");
         static string storagePath = Path.Combine(dataFolderPath, "ProductJson.json");
-       
+        public string serialize(object ser)
+        {
+            string SeryalazeText = "";
+            return SeryalazeText = JsonConvert.SerializeObject(ser);
+        }
+
         public void AddProdoct(Product product)
         {
+            string serText = serialize(product);
+            string json = "";
+            string ss = "";
             try
             {
-               string SeryalazeText = JsonConvert.SerializeObject(product);
-              //  File.WriteAllText(storagePath, SeryalazeText);
+                string json2 = ReadFile(storagePath);
 
-
-                string json = "";
-                using (StreamReader r = new StreamReader(storagePath))
-                {
-                    json = r.ReadToEnd();
-
-
-                }
-                string ss = "";
                 int n = 0;
-                int l = json.Length - 2;
-                foreach (var item in json)
+                int l = json2.Length - 2;
+                foreach (var item in json2)
                 {
 
-                 if(n<=l)   ss=ss+item;
+                    if (n <= l) ss = ss + item;
                     n++;
                 }
-                ss = ss + "," + SeryalazeText + "]";
-                
-             //   string SeryalazeText = JsonConvert.SerializeObject(omid);
-
-
-
-                File.WriteAllText(storagePath, ss);
-
+                ss = ss + "," + serText + "]";
             }
-            catch 
+            catch
             {
-                throw new Exception("not recorded serialized text");
+                throw new BaseExeption("can not serialized recorded");
             }
+            File.WriteAllText(storagePath, ss);
+           
 
-          
+
 
         }
-        public List<Product> GetProductsList()
+
+        private string ReadFile(string path)
+        {
+            string json = "";
+            using (StreamReader read = new StreamReader(path))
+            {
+                json = read.ReadToEnd();
+
+            }
+            return json;
+        }
+
+        public List<Product>? GetProductsList()
         {
             var list = new List<Product>();
             using (StreamReader r = new StreamReader(storagePath))
             {
                 string json = r.ReadToEnd();
-              list = JsonConvert.DeserializeObject<List<Product>>(json);
+                list = JsonConvert.DeserializeObject<List<Product>>(json);
             }
             return list;
-         }
+        }
     }
+    
 }

@@ -17,25 +17,20 @@ namespace BusinesRuleProject.Interface
         {
             string Flag = "false";
             string Name = product.Name;
-           
-           bool result= CheckProductName(Name);
-            if (result)
-            {
-                
-                try
-                {
-                    dBStorage.AddProdoct(product);
-                    Flag = "true";
-                }
-                catch (System.Exception msg)
+            
+                bool result = CheckProductName(Name);
+                if (result)
                 {
 
-                    Console.WriteLine(msg.Message);
-                 
+                    dBStorage.AddProdoct(product);
+                    Flag = "true";
+
                 }
-            }
-            return Flag;
-            
+           
+               else throw new BaseExeption("your name is not VALID...");
+                 
+           
+                return Flag;
         }
 
         public string GetProductById(int id)
@@ -68,7 +63,7 @@ namespace BusinesRuleProject.Interface
             }
             else return false;
 
-            return true;
+           
 
         }
     }
