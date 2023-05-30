@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace BusinesRuleProject.Database
 {
     public class DBStorage
     {
-
+        private Product omid=new Product();
         static string? solutionFolderPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
         static string dataFolderPath = Path.Combine(solutionFolderPath, "Database");
         static string storagePath = Path.Combine(dataFolderPath, "ProductJson.json");
@@ -23,52 +24,33 @@ namespace BusinesRuleProject.Database
         {
             try
             {
-                //string SeryalazeText = JsonConvert.SerializeObject(product);
-                //File.WriteAllText(storagePath,SeryalazeText);
-                string SeryalazeText = JsonConvert.SerializeObject(product);
-                File.WriteAllText(storagePath, SeryalazeText);
+               string SeryalazeText = JsonConvert.SerializeObject(product);
+              //  File.WriteAllText(storagePath, SeryalazeText);
+
+
                 string json = "";
                 using (StreamReader r = new StreamReader(storagePath))
                 {
                     json = r.ReadToEnd();
-                
+
 
                 }
-
-                string[] array= new string[json.Length+SeryalazeText.Length+1];
-                int Number = 0;
+                string ss = "";
+                int n = 0;
+                int l = json.Length - 2;
                 foreach (var item in json)
                 {
-                 if (Number!=json.Length && Number<json.Length)   array[Number] =item.ToString();
-                 else if (Number == json.Length)
-                    {
-                       array[Number] =",";
-                       int Number2= Number+1;
-                        foreach (var item2 in SeryalazeText)
-                        {
-                            if (Number2 != json.Length + SeryalazeText.Length && Number2 < json.Length + SeryalazeText.Length)
-                            {
-                                array[Number2] = item2.ToString();
-                                
-                            }
-                            else if (Number2== json.Length + SeryalazeText.Length)
-                            {
-                                array[Number2] = "]";
-                            }
-                            Number2++;
-                        }
-                    }
-                    
 
-                       
-                    Number++;
+                 if(n<=l)   ss=ss+item;
+                    n++;
                 }
-                string writingString = "";
-                foreach (var item in array)
-                {
-                    writingString += item.ToString();
+                ss = ss + "," + SeryalazeText + "]";
+                
+             //   string SeryalazeText = JsonConvert.SerializeObject(omid);
 
-                }
+
+
+                File.WriteAllText(storagePath, ss);
 
             }
             catch 
