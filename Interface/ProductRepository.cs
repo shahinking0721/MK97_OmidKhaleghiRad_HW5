@@ -57,7 +57,7 @@ namespace BusinesRuleProject.Interface
 
         public List<Product> GetProductsList()
         {
-            throw new NotImplementedException();
+            return dBStorage.GetProductsList(); 
         }
         public bool CheckProductName(string productName)
         {
