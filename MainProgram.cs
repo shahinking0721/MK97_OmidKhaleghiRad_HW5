@@ -17,7 +17,6 @@ namespace BusinesRuleProject
             bool EndProject=false;
             string result = productRepository.GetProductById(1);
             Console.WriteLine("Name Is: "+result);
-            
 
             //do
             //{
