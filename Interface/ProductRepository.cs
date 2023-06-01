@@ -12,59 +12,42 @@ namespace BusinesRuleProject.Interface
 {
     public class ProductRepository : IProductRepository
     {
-        DBStorage dBStorage = new DBStorage();
+        public readonly DBStorage dBStorage;
+        public ProductRepository(DBStorage dBStorage)
+        {
+            this.dBStorage = dBStorage;
+        }
+
         public string AddProduct(Product product)
         {
-            string Flag = "false";
-            string Name = product.Name;
-            
-                bool result = CheckProductName(Name);
-                if (result)
-                {
+            dBStorage.productsDB.Add(product);
+            return "";
 
-                    dBStorage.AddProdoct(product);
-                    Flag = "true";
-
-                }
-           
-               else throw new BaseExeption("your name is not VALID...");
-                 
-           
-                return Flag;
         }
 
         public string GetProductById(int id)
         {
-            List<Product> products = dBStorage.GetProductsList();
-            string result = "";
-            foreach (var item in products)
-            {
-                if (item.ProductId == id)
-                {
-                    result = item.Name;
-                   
-                }
-                
-            }
+            return "";
+            //    List<Product> products = dBStorage.GetProductsList();
+            //    string result = "";
+            //    foreach (var item in products)
+            //    {
+            //        if (item.ProductId == id)
+            //        {
+            //            result = item.Name;
 
-            return result;
+            //        }
+
+            // }
+
+            //  return result;
         }
 
         public List<Product> GetProductsList()
         {
-            return dBStorage.GetProductsList(); 
+            return dBStorage.getAllListProduct(); 
+         
         }
-        public bool CheckProductName(string productName)
-        {
-            if(Regex.IsMatch(productName, @"[A-Z][a-z][a-z][a-z]._\d\d\d"))
-            {
-                return true;
 
-            }
-            else return false;
-
-           
-
-        }
     }
 }

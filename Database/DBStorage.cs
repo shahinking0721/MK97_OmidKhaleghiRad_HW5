@@ -9,74 +9,49 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace BusinesRuleProject.Database
 {
     public class DBStorage
     {
-        private Product omid = new Product();
-        static string? solutionFolderPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
-        static string dataFolderPath = Path.Combine(solutionFolderPath, "Database");
-        static string storagePath = Path.Combine(dataFolderPath, "ProductJson.json");
-        public string serialize(object ser)
+        private string workingDirectory;
+        private string projectDirectory;
+        public List<Product> productsDB;
+        public DBStorage()
         {
-            string SeryalazeText = "";
-            return SeryalazeText = JsonConvert.SerializeObject(ser);
-        }
 
-        public void AddProdoct(Product product)
-        {
-            string serText = serialize(product);
-            string json = "";
-            string ss = "";
-            try
+
+            workingDirectory = Environment.CurrentDirectory;
+            projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
+            JsonSerializer serializer = new JsonSerializer();
+            
+            using (FileStream s = File.Open($"{projectDirectory}/../Database/ProductJson.json", FileMode.Open))
+            using (StreamReader sr = new StreamReader(s))
+            using (JsonReader reader = new JsonTextReader(sr))
             {
-                string json2 = ReadFile(storagePath);
-
-                int n = 0;
-                int l = json2.Length - 2;
-                foreach (var item in json2)
+                while (!sr.EndOfStream)
                 {
-
-                    if (n <= l) ss = ss + item;
-                    n++;
+                    productsDB = serializer.Deserialize<List<Product>>(reader);
                 }
-                ss = ss + "," + serText + "]";
             }
-            catch
-            {
-                throw new BaseExeption("can not serialized recorded");
-            }
-            File.WriteAllText(storagePath, ss);
-           
-
-
-
         }
 
-        private string ReadFile(string path)
-        {
-            string json = "";
-            using (StreamReader read = new StreamReader(path))
-            {
-                json = read.ReadToEnd();
 
-            }
-            return json;
+
+        public void SaveChanges()
+        {
+            var userJsonString = JsonConvert.SerializeObject(productsDB);
+            File.WriteAllText(@$"{projectDirectory}/../Database/ProductJson.json", userJsonString);
         }
-
-        public List<Product>? GetProductsList()
+        public List<Product> getAllListProduct()
         {
-            var list = new List<Product>();
-            using (StreamReader r = new StreamReader(storagePath))
-            {
-                string json = r.ReadToEnd();
-                list = JsonConvert.DeserializeObject<List<Product>>(json);
-            }
-            return list;
+            return productsDB;
         }
     }
-    
 }
+    
+
