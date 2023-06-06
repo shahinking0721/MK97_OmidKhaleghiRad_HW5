@@ -8,6 +8,19 @@ namespace BusinesRuleProject.Domain
 {
     public class Stock
     {
+        public Stock()
+        {
+                
+        }
+        public Stock(int stockId, string name, int productId, int productQuantity, decimal productPrice)
+        {
+            StockId = stockId;
+            Name = name;
+            ProductId = productId;
+            ProductQuantity = productQuantity;
+            ProductPrice = productPrice;
+        }
+
         public int StockId { get; set; }
         public string Name { get; set; }
         public int ProductId  { get; set; }

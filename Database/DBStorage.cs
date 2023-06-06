@@ -21,35 +21,54 @@ namespace BusinesRuleProject.Database
         private string workingDirectory;
         private string projectDirectory;
         public List<Product> productsDB;
-        public DBStorage()
+        public List<Stock> StocksDB;
+        string NameOfDB = "";
+        public DBStorage(string NameofDB)
         {
-
-
             workingDirectory = Environment.CurrentDirectory;
             projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
             JsonSerializer serializer = new JsonSerializer();
-            
-            using (FileStream s = File.Open($"{projectDirectory}/../Database/ProductJson.json", FileMode.Open))
-            using (StreamReader sr = new StreamReader(s))
+
+            NameOfDB = NameofDB;
+          
+
+
+            using (FileStream s = File.Open($"{projectDirectory}/../Database/{NameOfDB}.json", FileMode.Open))
+         
+
+                        using (StreamReader sr = new StreamReader(s))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 while (!sr.EndOfStream)
                 {
-                    productsDB = serializer.Deserialize<List<Product>>(reader);
+                    if (NameOfDB == "ProductJson") productsDB = serializer.Deserialize<List<Product>>(reader);
+                    if (NameOfDB == "StockJson") StocksDB = serializer.Deserialize<List<Stock>>(reader);
                 }
             }
         }
 
 
 
-        public void SaveChanges()
+        public void SaveChanges(string saveDB)
         {
-            var userJsonString = JsonConvert.SerializeObject(productsDB);
-            File.WriteAllText(@$"{projectDirectory}/../Database/ProductJson.json", userJsonString);
+            if(saveDB=="Product")
+            {
+                var userJsonString = JsonConvert.SerializeObject(productsDB);
+                File.WriteAllText(@$"{projectDirectory}/../Database/ProductJson.json", userJsonString);
+            }
+            if (saveDB == "Stock")
+            {
+                var userJsonString = JsonConvert.SerializeObject(StocksDB);
+                File.WriteAllText(@$"{projectDirectory}/../Database/StockJson.json", userJsonString);
+            }
         }
         public List<Product> getAllListProduct()
         {
             return productsDB;
+        }
+        public List<Stock> getAllListStock()
+        {
+            return StocksDB;
         }
     }
 }
