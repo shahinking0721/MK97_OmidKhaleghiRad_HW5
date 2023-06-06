@@ -15,34 +15,49 @@ namespace BusinesRuleProject
     {
         public static void Main(string[] args)
         {
-            var dBStorage = new DBStorage();
-
-
-            var productRepository = new ProductRepository(dBStorage);
-            IProductServise productService = new ProductServise(productRepository, dBStorage);
-
-            var productAddDto = new AddPruductDto
+           // var dBProduct = new DBStorage("ProductJson");
+            var dBStock = new DBStorage("StockJson");
+         //   var productRepository = new ProductRepository(dBProduct);
+            var stockRepository = new StockRepository(dBStock);
+           // IProductServise productService = new ProductServise(productRepository, dBProduct);
+            IStockServise stockService = new StockService(stockRepository, dBStock);
+            Stock stock = new Stock()
             {
-                ProductId = 2,
-                Name = "Ogggi_999",
-                Barcode = 654645
+                StockId =(int) 1,
+                Name = "omid",
+                ProductId = (int)5,
+                ProductQuantity = (int)2,
+                ProductPrice =(decimal) 1000
+
+
+
             };
+           string result= stockService.BuyProduct(stock);
+            Console.WriteLine(result);
+         //   string nameOfProduct=productService.GetProductById(2);
+         //   Console.Write(nameOfProduct);
+            //  var productAddDto = new AddPruductDto
+            //  {
+            //      ProductId = 2,
+            //      Name = "Omidi_99",
+            //      Barcode = 7,
+            //  };
 
-            productService.AddProduct(productAddDto);
-           List<Product> products= productService.GetProductsList();
-            Console.WriteLine("[Name]--------[IDProduct]-------[Barcode]");
-            foreach (var item in products)
-            {
-                Console.Write(item.Name); Console.Write("     "); Console.Write(item.ProductId); Console.Write("     "); Console.Write(item.Barcode);
-                Console.WriteLine( );
+            //string result= productService.AddProduct(productAddDto);
+            // List<Product> products= productService.GetProductsList();
+            //  Console.WriteLine("[Name]--------[IDProduct]-------[Barcode]");
+            //  foreach (var item in products)
+            //  {
+            //      Console.Write(item.Name); Console.Write("     "); Console.Write(item.ProductId); Console.Write("     "); Console.Write(item.Barcode);
+            //      Console.WriteLine( );
 
-            }
-         
+            //  }
 
-           
+
+
 
             //ProductRepository productRepository = new ProductRepository();
-         //   Product prodoct = new Product();
+            //   Product prodoct = new Product();
             //bool EndProject = false;
             //string result = productRepository.GetProductById(1);
             //Console.WriteLine("Name Is: "+result);
@@ -51,14 +66,14 @@ namespace BusinesRuleProject
             //{
 
 
-                //prodoct.ProductId = 3;
-                //prodoct.Barcode = 333;
-                //prodoct.setProductName("Amini_111");
-                //string resul = string.Empty;
-                //try
-               // {
-                //    resul   = productRepository.AddProduct(prodoct);
-               // }
+            //prodoct.ProductId = 3;
+            //prodoct.Barcode = 333;
+            //prodoct.setProductName("Amini_111");
+            //string resul = string.Empty;
+            //try
+            // {
+            //    resul   = productRepository.AddProduct(prodoct);
+            // }
             //    catch (Exception msg)
             //    {
             //        Console.BackgroundColor = ConsoleColor.Red;
@@ -76,7 +91,7 @@ namespace BusinesRuleProject
             //    }
             //    if (resul == "true")
             //    {
-                   
+
             //        Console.ForegroundColor = ConsoleColor.Green;
             //        Console.WriteLine("transaction sucssesfuly...");
 
