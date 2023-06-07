@@ -19,8 +19,7 @@ namespace BusinesRuleProject.Interface
         public string BuyProduct(Stock productInStock)
         {
             List<Stock> Seles = dBStorage.getAllListStock();
-            // var item = (from x in Seles where x.ProductId == productId && x.ProductQuantity>=cnt select x.Name).First();
-            var item = Seles.FirstOrDefault(i => i.ProductId== productInStock.ProductId || i.Name ==productInStock.Name);
+            var item = Seles.FirstOrDefault(i =>  i.Name ==productInStock.Name);
 
             if (item != null)
             {
