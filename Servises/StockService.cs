@@ -1,7 +1,9 @@
 ﻿using BusinesRuleProject.Database;
 using BusinesRuleProject.Domain;
 using BusinesRuleProject.Interface;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,19 +27,43 @@ namespace BusinesRuleProject.Servises
         {
           
             var stock = new Stock(productInStock.StockId, productInStock.Name, productInStock.ProductId, productInStock.ProductQuantity, productInStock.ProductPrice);
-            this.stockRepository.BuyProduct(stock);
+           string result= this.stockRepository.BuyProduct(stock);
+
             dbStorage.SaveChanges("Stock");
-            return "success";
+            return result;
         }
 
-        public List<SockProductViewModel> GetSalesProductList()
+        public List<Stock> GetSalesProductList()
         {
-            throw new NotImplementedException();
+            dbStorage.SaveChanges("TextStock");
+            return stockRepository.GetSalesProductList();
+          
+               
+            
         }
 
         public string SaleProduct(int productId, int cnt)
         {
-            throw new NotImplementedException();
+          string result=  stockRepository.SaleProduct(productId, cnt);
+            if (result == "true")
+            {
+                dbStorage.SaveChanges("Stock");
+                return "susesfuuuly";
+            }
+            else return "wrong";
         }
+        public int lastStockID()
+        {
+            List<Stock> stocks =stockRepository.GetSalesProductList();
+            int newMyId = 0;
+            foreach (var item in stocks)
+            {
+                if (item.StockId > newMyId)
+                    newMyId = item.StockId;
+
+            }
+            return newMyId + 1;
+        }
+
     }
 }

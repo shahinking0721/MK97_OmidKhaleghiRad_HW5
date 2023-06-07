@@ -8,6 +8,11 @@ namespace BusinesRuleProject.Domain
 {
     public class SockProductViewModel
     {
+        public int ProductId { get; set; }
+        public int StockId { get; set; }
+        public int SelId { get; set; }
+        public int Cont { get; set; }
+
 
     }
 }

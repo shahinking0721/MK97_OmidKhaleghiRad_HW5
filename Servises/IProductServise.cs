@@ -13,6 +13,7 @@ namespace BusinesRuleProject.Servises
         string AddProduct(AddPruductDto product);
         List<Product> GetProductsList();
         string GetProductById(int id);
+        int lastProductID();
        
     }
 }

@@ -11,6 +11,7 @@ namespace BusinesRuleProject.Servises
     {
         string SaleProduct(int productId, int cnt);
         string BuyProduct(Stock productInStock);
-        List<SockProductViewModel> GetSalesProductList();
+        List<Stock> GetSalesProductList();
+         int lastStockID();
     }
 }

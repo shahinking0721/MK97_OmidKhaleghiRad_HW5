@@ -3,6 +3,7 @@ using BusinesRuleProject.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,18 +18,34 @@ namespace BusinesRuleProject.Interface
         }
         public string BuyProduct(Stock productInStock)
         {
-            dBStorage.StocksDB.Add(productInStock);
-            return "";
-        }
+            List<Stock> Seles = dBStorage.getAllListStock();
+            var item = Seles.FirstOrDefault(i =>  i.Name ==productInStock.Name);
 
-        public List<SockProductViewModel> GetSalesProductList()
+            if (item != null)
+            {
+                item.ProductQuantity = item.ProductQuantity + productInStock.ProductQuantity;
+                return "The product inventory has been updated...";
+            }
+            else
+            {
+                dBStorage.StocksDB.Add(productInStock);
+                return "A new product has been created...";
+            } 
+        }
+        public List<Stock> GetSalesProductList()
         {
-            throw new NotImplementedException();
+            return dBStorage.getAllListStock();
         }
-
         public string SaleProduct(int productId, int cnt)
         {
-            throw new NotImplementedException();
+          List<Stock> Seles= dBStorage.getAllListStock();
+          var item = Seles.FirstOrDefault(i => i.ProductQuantity >= cnt && i.ProductId==productId);
+            if (item != null)
+            {
+                item.ProductQuantity = item.ProductQuantity - cnt;
+                return "The sale was successful...";
+            }
+            return "The sale was not successful...";
         }
     }
 }
