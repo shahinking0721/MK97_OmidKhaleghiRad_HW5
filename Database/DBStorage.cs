@@ -46,9 +46,6 @@ namespace BusinesRuleProject.Database
                 }
             }
         }
-
-
-
         public void SaveChanges(string saveDB)
         {
             if(saveDB=="Product")
@@ -60,6 +57,15 @@ namespace BusinesRuleProject.Database
             {
                 var userJsonString = JsonConvert.SerializeObject(StocksDB);
                 File.WriteAllText(@$"{projectDirectory}/../Database/StockJson.json", userJsonString);
+            }
+            if (saveDB == "TextStock")
+            {
+                string myquery = "       --[[WELLCOME TO QUERY FROM STOCK]]--"+ "\n\r" + "Name/StockId/ProductQuantity/ProductId/ProductPrice/TotalPrice" + "\n\r";
+                foreach (var item in StocksDB)
+                {
+                   myquery += Convert.ToString(item.Name)+ "    " + Convert.ToString(item.StockId )+ "          " + Convert.ToString(item.ProductQuantity) + "             " + Convert.ToString( item.ProductId) + "       " + Convert.ToString(item.ProductPrice)+"\n\r";
+                }
+                File.WriteAllText(@$"{projectDirectory}/../Database/QueryText1.txt", myquery);
             }
         }
         public List<Product> getAllListProduct()

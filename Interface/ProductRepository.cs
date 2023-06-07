@@ -27,20 +27,10 @@ namespace BusinesRuleProject.Interface
 
         public string GetProductById(int id)
         {
-            return "";
-            //    List<Product> products = dBStorage.GetProductsList();
-            //    string result = "";
-            //    foreach (var item in products)
-            //    {
-            //        if (item.ProductId == id)
-            //        {
-            //            result = item.Name;
-
-            //        }
-
-            // }
-
-            //  return result;
+            
+            List<Product> products = GetProductsList();
+            var item = (from x in products where x.ProductId == id select x.Name).First();
+            return item.ToString();
         }
 
         public List<Product> GetProductsList()
@@ -48,6 +38,7 @@ namespace BusinesRuleProject.Interface
             return dBStorage.getAllListProduct(); 
          
         }
+      
 
     }
 }

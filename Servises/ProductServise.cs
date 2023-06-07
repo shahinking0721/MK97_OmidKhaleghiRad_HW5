@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace BusinesRuleProject.Servises
 
         public string AddProduct(AddPruductDto productDto)
         {
-            string result = "Wrong";
+            string result = "Invalid Name";
             bool myCheckResult =false;
             if (productDto.Name != null&& productDto.ProductId != null && productDto.Barcode != null)
             {
@@ -38,7 +39,7 @@ namespace BusinesRuleProject.Servises
                 var product = new Product(productDto.ProductId, productDto.Name, productDto.Barcode);
                 this.productRepository.AddProduct(product);
                 dbStorage.SaveChanges("Product");
-                result = "Sucssesfuly";
+                result = "Product Saved Sucssesfuly";
             }
             return result;
         }
@@ -47,19 +48,8 @@ namespace BusinesRuleProject.Servises
         public string GetProductById(int id)
         {
 
-
-            List<Product> products= productRepository.GetProductsList();
-            var productNames = products.Where(s => s.ProductId == id);
-            string nameOfProduct = string.Empty;
-            if(productNames!=null)
-            { 
-               foreach (var item in productNames)
-               {
-                 nameOfProduct = item.Name;
-               } 
-            }
-           
-            return nameOfProduct;
+            string name=productRepository.GetProductById(id);
+            return name;
          
         }
 
@@ -74,5 +64,18 @@ namespace BusinesRuleProject.Servises
             if (Regex.IsMatch(productName, @"[A-Z][a-z][a-z][a-z]._\d\d\d"))result = true;
             return result;
         }
+        public int lastProductID()
+        {
+            List<Product> products = productRepository.GetProductsList();
+            int newMyId = 0;
+            foreach (var item in products)
+            {
+                if (item.ProductId > newMyId)
+                    newMyId = item.ProductId;
+
+            }
+            return newMyId + 1;
+        }
+
     }
 }

@@ -1,9 +1,1 @@
-[
-  {
-    "StockId": 1,
-    "Name": "omid",
-    "ProductId": 5,
-    "ProductQuantity": 2,
-    "ProductPrice": 1000.0
-  }
-]
+[{"StockId":1,"Name":"omidgdd","ProductId":6,"ProductQuantity":14,"ProductPrice":1000.0},{"StockId":1,"Name":"omid","ProductId":5,"ProductQuantity":6,"ProductPrice":1000.0},{"StockId":2,"Name":"Ali","ProductId":3,"ProductQuantity":8,"ProductPrice":1333.0}]
